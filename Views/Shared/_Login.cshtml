@@ -1,0 +1,21 @@
+@model LogUser
+
+<div class="card w-100 mx-auto shadow-lg">
+    <div class="card-body">
+        <form asp-action="LoginUser" asp-controller="User" method="post">
+            <div class="m-3 row">
+                <label class="form-label col-4" asp-for="LogEmail"></label>
+                <input class="form-control col" asp-for="LogEmail">
+                <span class="text-danger" asp-validation-for="LogEmail"></span>
+            </div>
+            <div class="m-3 row">
+                <label class="form-label col-4" asp-for="LogPassword"></label>
+                <input class="form-control col" asp-for="LogPassword">
+                <span class="text-danger" asp-validation-for="LogPassword"></span>
+            </div>
+            <button class="btn btn-primary float-end me-3">Submit</button>
+
+
+        </form>
+    </div>
+</div>

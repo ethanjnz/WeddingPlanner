@@ -1,0 +1,47 @@
+@{
+    int? UserId = Context.Session.GetInt32("UserId");
+}
+@model List<Wedding>
+<div class="container">
+    <div>
+        @await Html.PartialAsync("_navbar")
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Wedding of</td>
+                <td>Date</td>
+                <td>Guest Count</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Wedding t in Model)
+            {
+                bool decided = t.UserDecision.Any(d => d.UserId == UserId);
+                <tr>
+                    <td><a asp-action="OneWedding" asp-route-weddingId=@t.WeddingId asp-controller="Wedding"
+                            class="Classes">@t.WedderOne & @t.WedderTwo</a>
+                    </td>
+                    <td>@t.TheBigDay.ToString("MMM d yyyy")</td>
+                    <td>@t.UserDecision.Count</td>
+                    <td>
+                        @if (t.UserId == UserId)
+                        {
+                            <form asp-action="DeleteWedding" asp-route-weddingId=@t.WeddingId asp-controller="Decision"
+                                method="post">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="ToggleDecision" asp-controller="Decision" asp-route-id=@t.WeddingId method="post">
+                                <button class="btn btn-primary">@(decided ? "Un-RSVP" : "RSVP")</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
